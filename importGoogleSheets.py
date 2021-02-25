@@ -12,9 +12,15 @@ SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 # The ID and range of a sample spreadsheet.
 SPREADSHEET_ID = '1lTEBEorke_b5VhlKLIOKjqpMMzTZPPr7mB4wOMtHfx8'
 RANGE_NAME = 'Ark 4!A1:J16'
-SHEET_PRICE_RANGE = 'Main!B6:I26'
+SHEET_PRICE_RANGE = 'Main!B6:I29'
 sheets = []
 sheetsPrice = {}
+prices = {}
+priceStorformat = {}
+priceStorformatPano = {}
+priceChroma = {}
+priceLerret = {}
+priceLerret_2_3 = {}
 
 
 def gsheets():
@@ -53,15 +59,26 @@ def gsheets():
                                       range=SHEET_PRICE_RANGE).execute()
     price_values = price_result.get('values', [])
     # print(price_values[1][1])
-    priceStorformatPano = {}
 
     for i in range(1, 6):
-        priceStorformatPano['size'] = price_values[i][1]
-        priceStorformatPano['price'] = price_values[i][7]
-        print(priceStorformatPano)
+        priceStorformat[price_values[i][1]] = price_values[i][7]
+    prices['storformat'] = priceStorformat
+    for i in range(7, 12):
+        priceStorformatPano[price_values[i][1]] = price_values[i][7]
+    prices['storformatPano'] = priceStorformatPano
+    for i in range(13, 18):
+        priceChroma[price_values[i][1]] = price_values[i][7]
+    prices['Chromaluxe'] = priceChroma
+    for i in range(19, 24):
+        priceLerret[price_values[i][1]] = price_values[i][7]
+    prices['Lerret'] = priceLerret
 
-        for k, v in priceStorformatPano.items():
-            print(k, v)
+    priceLerret_2_3 = priceLerret
+    print(priceLerret_2_3)
+    for k in priceLerret:
+        # print(k)
+        # priceLerret_2_3[0] = k[3:5]
+        print(k[3:5])
 
     if not values:
         print('No data found.')
