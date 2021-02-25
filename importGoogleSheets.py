@@ -4,13 +4,13 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 import pickle
 import os.path
-
+from googlekey import key
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 
 # The ID and range of a sample spreadsheet.
-SPREADSHEET_ID = '1lTEBEorke_b5VhlKLIOKjqpMMzTZPPr7mB4wOMtHfx8'
+SPREADSHEET_ID = key
 RANGE_NAME = 'Ark 4!A1:J16'
 SHEET_PRICE_RANGE = 'Main!B6:I29'
 sheets = []
@@ -58,7 +58,6 @@ def gsheets():
     price_result = sheet.values().get(spreadsheetId=SPREADSHEET_ID,
                                       range=SHEET_PRICE_RANGE).execute()
     price_values = price_result.get('values', [])
-    # print(price_values[1][1])
 
     for i in range(1, 6):
         priceStorformat[price_values[i][1]] = price_values[i][7]
@@ -73,21 +72,11 @@ def gsheets():
         priceLerret[price_values[i][1]] = price_values[i][7]
     prices['Lerret'] = priceLerret
 
-    priceLerret_2_3 = priceLerret
-    print(priceLerret_2_3)
-    for k in priceLerret:
-        # print(k)
-        # priceLerret_2_3[0] = k[3:5]
-        print(k[3:5])
-
     if not values:
         print('No data found.')
     else:
         for row in values:
             sheets.append(row)
-            # Print columns A and E, which correspond to indices 0 and 4.
-            # print('%s, %s' % (row[0], row[4]))
-            # print(row)
 
 
 if __name__ == '__main__':
