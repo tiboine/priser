@@ -15,6 +15,7 @@ chromaluxe = product[1][5]  # chromaluxe description
 lerret = product[1][6]  # Canvas description
 storformat = product[1][7]
 
+# print(gs.priceChromaluxe)
 priceChroma = {'30x20': 895,
                '60x40': 2395,
                '75x50': 3795,
@@ -75,9 +76,13 @@ with open('pricelist2.csv', 'w', newline='', encoding='utf-8') as file:
                          ])
         if product[x][9] == '2:3' or product[x][9] == '3:2':
             if product[x][9] == '2:3':
+                for i, val in gs.priceChroma.items():
+                    i = str(i).split('x')
+                    priceChroma_2_3[f"{i[1]}x{i[0]}"] = val
+
                 prices = priceChroma_2_3.items()
             elif product[x][9] == '3:2':
-                prices = priceChroma.items()
+                prices = gs.priceChroma.items()
 
             for size, price in prices:
                 writer.writerow(
@@ -89,9 +94,12 @@ with open('pricelist2.csv', 'w', newline='', encoding='utf-8') as file:
                      chromaluxe])
 
             if product[x][9] == '2:3':
+                for i, val in gs.priceLerret.items():
+                    i = str(i).split('x')
+                    priceLerret_2_3[f"{i[1]}x{i[0]}"] = val
                 prices = priceLerret_2_3.items()
             elif product[x][9] == '3:2':
-                prices = priceLerret.items()
+                prices = gs.priceLerret.items()
 
             for size, price in prices:
                 writer.writerow(
@@ -103,6 +111,9 @@ with open('pricelist2.csv', 'w', newline='', encoding='utf-8') as file:
                      lerret])
 
             if product[x][9] == '2:3':
+                for i, val in gs.priceStorformat.items():
+                    i = str(i).split('x')
+                    priceStorformat_2_3[f"{i[1]}x{i[0]}"] = val
                 prices = priceStorformat_2_3.items()
             elif product[x][9] == '3:2':
                 prices = priceStorformat.items()
