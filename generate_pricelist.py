@@ -15,7 +15,7 @@ priceStorformat_2_3 = {}
 priceList = ['Name', 'Type', 'Size', 'Price',
              'Description', 'Imageloc', 'category', 'tags', 'SKU', 'variationDesc']
 
-with open('pricelist2.csv', 'w', newline='', encoding='utf-8') as file:
+with open('generated pricelist.csv', 'w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
     writer.writerow(priceList)  # headers
     for x in range(1, len(product)):
