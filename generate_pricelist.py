@@ -3,10 +3,17 @@ import importGoogleSheets as gs
 
 gs.gsheets()
 product = gs.sheets
+# for testing without google sheet cred: comment the two above lines and gs, uncomment the following lines:
+# product = []
+# with open('demo_products.csv', encoding='utf-8') as file:
+#     reader = csv.reader(file)
+#     for row in reader:
+#         product.append(row)
+
 
 chromaluxe = product[1][5]  # chromaluxe description
 lerret = product[1][6]  # Canvas description
-storformat = product[1][7]
+storformat = product[1][7]  # paper description
 priceChroma_2_3 = {}
 priceLerret_2_3 = {}
 priceStorformat_2_3 = {}
@@ -79,7 +86,6 @@ with open('generated pricelist.csv', 'w', newline='', encoding='utf-8') as file:
 
         elif product[x][9] == '2:1':
             prices = gs.priceStorformatPano.items()
-            print(prices)
 
             for size, price in prices:
                 writer.writerow(
@@ -89,5 +95,3 @@ with open('generated pricelist.csv', 'w', newline='', encoding='utf-8') as file:
                      price, '', '', '',  '',
                      product[x][7],
                      storformat])
-
-print(prices)
