@@ -26,7 +26,7 @@ with open('pricelist2.csv', 'w', newline='', encoding='utf-8') as file:
                          product[x][4],
                          product[x][8],
                          ])
-        if product[x][9] == '2:3' or '3:2':
+        if product[x][9] == '2:3' or product[x][9] == '3:2':
             if product[x][9] == '2:3':
                 for i, val in gs.priceChroma.items():
                     i = str(i).split('x')
@@ -45,7 +45,7 @@ with open('pricelist2.csv', 'w', newline='', encoding='utf-8') as file:
                      '',
                      chromaluxe])
 
-            if product[x][9] == '2:3' or '3:2':
+            if product[x][9] == '2:3':
                 for i, val in gs.priceLerret.items():
                     i = str(i).split('x')
                     priceLerret_2_3[f"{i[1]}x{i[0]}"] = val
@@ -61,7 +61,7 @@ with open('pricelist2.csv', 'w', newline='', encoding='utf-8') as file:
                      price, '', '', '',  '', '',
                      lerret])
 
-            if product[x][9] == '2:3' or '3:2':
+            if product[x][9] == '2:3':
                 for i, val in gs.priceStorformat.items():
                     i = str(i).split('x')
                     priceStorformat_2_3[f"{i[1]}x{i[0]}"] = val
