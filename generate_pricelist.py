@@ -18,7 +18,7 @@ priceChroma_2_3 = {}
 priceLerret_2_3 = {}
 priceStorformat_2_3 = {}
 
-
+# headers
 priceList = ['Name', 'Type', 'Size', 'Price',
              'Description', 'Imageloc', 'category', 'tags', 'SKU', 'variationDesc']
 
@@ -38,7 +38,6 @@ with open('generated pricelist.csv', 'w', newline='', encoding='utf-8') as file:
                 for i, val in gs.priceChroma.items():
                     i = str(i).split('x')
                     priceChroma_2_3[f"{i[1]}x{i[0]}"] = val
-
                     prices = priceChroma_2_3.items()
             elif product[x][9] == '3:2':
                 prices = gs.priceChroma.items()
@@ -49,7 +48,7 @@ with open('generated pricelist.csv', 'w', newline='', encoding='utf-8') as file:
                      product[0][5],
                      size,
                      price, '', '', '', '',
-                     '',
+                     product[x][8],
                      chromaluxe])
 
             if product[x][9] == '2:3':
@@ -65,7 +64,7 @@ with open('generated pricelist.csv', 'w', newline='', encoding='utf-8') as file:
                     [product[x][0],
                      product[0][6],
                      size,
-                     price, '', '', '',  '', '',
+                     price, '', '', '',  '', product[x][8],
                      lerret])
 
             if product[x][9] == '2:3':
@@ -81,7 +80,7 @@ with open('generated pricelist.csv', 'w', newline='', encoding='utf-8') as file:
                     [product[x][0],
                      product[0][7],
                      size,
-                     price, '', '', '',  '',  '',
+                     price, '', '', '',  '',  product[x][8],
                      storformat])
 
         elif product[x][9] == '2:1':
@@ -92,6 +91,6 @@ with open('generated pricelist.csv', 'w', newline='', encoding='utf-8') as file:
                     [product[x][0],
                      product[0][7],
                      size,
-                     price, '', '', '',  '',
+                     price, '', '', '',  product[x][8],
                      product[x][7],
                      storformat])
