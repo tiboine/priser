@@ -32,9 +32,12 @@ name, description, imageloc, category, tags, sku, variationdesc, ratio, chromalu
     'SKU'),
     product[0].index(
     'variationDesc'),
-    product[0].index('Ratio'), product[0].index('Chromaluxe'), product[0].index('Lerret'), product[0].index('FineArt fotopapir')]
+    product[0].index('Ratio'),
+    product[0].index('Chromaluxe'),
+    product[0].index('Lerret'),
+    product[0].index('FineArt fotopapir')]
 
-print(chromaluxeDesc)
+
 with open('generated pricelist.csv', 'w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
     writer.writerow(product[0])  # headers
@@ -75,9 +78,10 @@ with open('generated pricelist.csv', 'w', newline='', encoding='utf-8') as file:
             for size, price in prices:
                 writer.writerow(
                     [product[x][name],
-                     product[0][12],
+                     product[0][lerret],
                      size,
-                     price, '', '', '',  '', product[x][sku],
+                     price, '', '', '', '',
+                     product[x][sku],
                      lerretDesc])
 
             if product[x][ratio] == '2:3':
@@ -93,7 +97,8 @@ with open('generated pricelist.csv', 'w', newline='', encoding='utf-8') as file:
                     [product[x][name],
                      product[0][storformat],
                      size,
-                     price, '', '', '',  '',  product[x][sku],
+                     price, '', '', '', '',
+                     product[x][sku],
                      storformatDesc])
 
         elif product[x][ratio] == '2:1':
@@ -101,8 +106,9 @@ with open('generated pricelist.csv', 'w', newline='', encoding='utf-8') as file:
 
             for size, price in prices:
                 writer.writerow(
-                    [product[x][0],
+                    [product[x][name],
                      product[0][storformat],
                      size,
-                     price, '', '', '', '', product[x][sku],
+                     price, '', '', '', '',
+                     product[x][sku],
                      storformatDesc])
