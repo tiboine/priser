@@ -17,12 +17,14 @@ storformat = product[1][7]  # paper description
 priceChroma_2_3 = {}
 priceLerret_2_3 = {}
 priceStorformat_2_3 = {}
-
+print(product[0])
 # headers
 priceList = ['Name', 'Type', 'Size', 'Price',
              'Description', 'Imageloc', 'category', 'tags', 'SKU', 'variationDesc']
 
-with open('generated pricelist.csv', 'w', newline='', encoding='utf-8') as file:
+with open('generated pricelist new test.csv', 'w', newline='', encoding='utf-8') as file:
+    writer = csv.writer(file)
+
     writer = csv.writer(file)
     writer.writerow(priceList)  # headers
     for x in range(1, len(product)):
