@@ -21,21 +21,29 @@ priceStorformat_2_3 = {}
 
 name, description, imageloc, category, tags, sku, variationdesc, ratio, chromaluxe, lerret, storformat = [product[0].index('Name'),
                                                                                                           product[0].index(
-    'Description'),
-    product[0].index(
-    'imageloc'),
-    product[0].index(
-    'category'),
-    product[0].index(
-    'tags'),
-    product[0].index(
-    'SKU'),
-    product[0].index(
-    'variationDesc'),
-    product[0].index('Ratio'),
-    product[0].index('Chromaluxe'),
-    product[0].index('Lerret'),
-    product[0].index('FineArt fotopapir')]
+                                                                                                              'Description'),
+                                                                                                          product[0].index(
+                                                                                                              'imageloc'),
+                                                                                                          product[0].index(
+                                                                                                              'category'),
+                                                                                                          product[0].index(
+                                                                                                              'tags'),
+                                                                                                          product[0].index(
+                                                                                                              'SKU'),
+                                                                                                          product[0].index(
+                                                                                                              'variationDesc'),
+                                                                                                          product[0].index(
+                                                                                                              'Ratio'),
+                                                                                                          product[0].index(
+                                                                                                              'Chromaluxe'),
+                                                                                                          product[0].index(
+                                                                                                              'Lerret'),
+                                                                                                          product[0].index('FineArt fotopapir')]
+
+
+def swapRatio(i, priceList):
+    i = str(i).split('x')
+    priceList[f"{i[1]}x{i[0]}"] = val
 
 
 with open('generated pricelist.csv', 'w', newline='', encoding='utf-8') as file:
@@ -52,8 +60,7 @@ with open('generated pricelist.csv', 'w', newline='', encoding='utf-8') as file:
         if product[x][ratio] == '2:3' or product[x][ratio] == '3:2':
             if product[x][ratio] == '2:3':
                 for i, val in gs.priceChroma.items():
-                    i = str(i).split('x')
-                    priceChroma_2_3[f"{i[1]}x{i[0]}"] = val
+                    swapRatio(i, priceChroma_2_3)
                     prices = priceChroma_2_3.items()
             elif product[x][ratio] == '3:2':
                 prices = gs.priceChroma.items()
@@ -69,8 +76,7 @@ with open('generated pricelist.csv', 'w', newline='', encoding='utf-8') as file:
 
             if product[x][ratio] == '2:3':
                 for i, val in gs.priceLerret.items():
-                    i = str(i).split('x')
-                    priceLerretDesc_2_3[f"{i[1]}x{i[0]}"] = val
+                    swapRatio(i, priceLerretDesc_2_3)
                 prices = priceLerretDesc_2_3.items()
             elif product[x][ratio] == '3:2':
                 prices = gs.priceLerret.items()
@@ -86,8 +92,7 @@ with open('generated pricelist.csv', 'w', newline='', encoding='utf-8') as file:
 
             if product[x][ratio] == '2:3':
                 for i, val in gs.priceStorformat.items():
-                    i = str(i).split('x')
-                    priceStorformat_2_3[f"{i[1]}x{i[0]}"] = val
+                    swapRatio(i, priceStorformat_2_3)
                 prices = priceStorformat_2_3.items()
             elif product[x][ratio] == '3:2':
                 prices = gs.priceStorformat.items()
