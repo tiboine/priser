@@ -5,22 +5,7 @@ product = gs.sheets
 
 
 class Products:
-    def __init__(self, name, itype, size, price, description, imageloc, category, tags, sku, variationdesc, ratio, chromaPrice, lerretPrice, storformatPrice, storformatPanoPrice):
-        self.name = name
-        self.itype = itype
-        self.size = size
-        self.price = price
-        self.description = description
-        self.imageloc = imageloc
-        self.category = category
-        self.tags = tags
-        self.sku = sku
-        self.variationdesc = variationdesc
-        self.ratio = ratio
-        self.chromaPrice = chromaPrice
-        self.lerretPrice = lerretPrice
-        self.storformatPrice = storformatPrice
-        self.storformatPanoPrice = storformatPanoPrice
+    pass
 
 
 def getProducts(ratio, priceList, itype):
@@ -51,10 +36,9 @@ with open('pricelist classes test.csv', 'w', newline='', encoding='utf-8') as fi
     writer = csv.writer(file)
     writer.writerow(product[0])  # headers
     for x in range(1, len(product)):
-        image = Products(product[x][0], '', '', '',  product[x][4], product[x][5],
-                         product[x][6], product[x][7], product[x][8], product[x][9], product[x][10], gs.priceChroma, gs.priceLerret,
-                         gs.priceStorformat,
-                         gs.priceStorformatPano)
+        image = Products()
+        image.name, image.itype, image.size, image.price, image.description, image.imageloc, image.category, image.tags, image.sku, image.variationdesc, image.ratio, image.chromaPrice, image.lerretPrice, image.storformatPrice, image.storformatPanoPrice = product[
+            x][0], '', '', '',  product[x][4], product[x][5], product[x][6], product[x][7], product[x][8], product[x][9], product[x][10], gs.priceChroma, gs.priceLerret, gs.priceStorformat, gs.priceStorformatPano
         writer.writerow(
             [image.name, '', '', '', image.description, image.imageloc, image.category, image.tags, image.sku, image.variationdesc])
 
