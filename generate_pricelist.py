@@ -1,69 +1,30 @@
-import csv
 import importGoogleSheets as gs
-
+import csv
 gs.gsheets()
 product = gs.sheets
-# for testing without google sheet cred: comment the two above lines and gs, uncomment the following lines:
-# product = []
-# with open('demo_products2.csv', encoding='utf-8') as file:
-#     reader = csv.reader(file)
-#     for row in reader:
-#         product.append(row)
-
-# print(product[1][10])
-chromaluxeDesc = product[1][11]  # chromaluxeDesc description
-lerretDesc = product[1][12]  # Canvas description
-storformatDesc = product[1][13]  # paper description
-priceChroma_2_3 = {}
-priceChroma = {}
-priceLerretDesc_2_3 = {}
-priceStorformat_2_3 = {}
 
 
-name, description, imageloc, category, tags, sku, variationdesc, ratio, chromaluxe, lerret, storformat = [product[0].index('Name'),
-                                                                                                          product[0].index(
-                                                                                                              'Description'),
-                                                                                                          product[0].index(
-                                                                                                              'imageloc'),
-                                                                                                          product[0].index(
-                                                                                                              'category'),
-                                                                                                          product[0].index(
-                                                                                                              'tags'),
-                                                                                                          product[0].index(
-                                                                                                              'SKU'),
-                                                                                                          product[0].index(
-                                                                                                              'variationDesc'),
-                                                                                                          product[0].index(
-                                                                                                              'Ratio'),
-                                                                                                          product[0].index(
-                                                                                                              'Chromaluxe'),
-                                                                                                          product[0].index(
-                                                                                                              'Lerret'),
-                                                                                                          product[0].index('FineArt fotopapir')]
-
-priceOut = {}
-productType = []
-productDesc = ''
+class Products:
+    pass
 
 
-def getProducts(ratio, priceList, productType, productDesc):
+def getProducts(ratio, priceList, itype):
     def generate():
         for size, price in priceList:
-            writer.writerow(
-                [product[x][name],
-                    product[0][productType],
-                    size,
-                    price, '', '', '', '',
-                    product[x][sku],
-                    productDesc])
+            writer.writerow([
+                image.name,
+                product[0][itype],
+                size,
+                price, '', '', '', '',
+                image.sku,
+                image.variationdesc])
 
-    if ratio == '2:1' and priceList == gs.priceStorformatPano.items():
+    if ratio == '3:2' and priceList != image.storformatPanoPrice.items():
         generate()
-    if ratio == '3:2' and priceList == gs.priceChroma.items():
+    if ratio == '2:1' and priceList == image.storformatPanoPrice.items():
         generate()
-    if ratio == '3:2' and priceList == gs.priceLerret.items():
-        generate()
-    if ratio == '2:3' and priceList == gs.priceChroma.items() or ratio == '2:3' and priceList == gs.priceLerret.items():
+    if ratio == '2:3' and priceList != image.storformatPanoPrice.items():
+        priceOut = {}
         for i, val in priceList:
             i = str(i).split('x')
             priceOut[f"{i[1]}x{i[0]}"] = val
@@ -71,23 +32,21 @@ def getProducts(ratio, priceList, productType, productDesc):
         generate()
 
 
-with open('generated pricelist.csv', 'w', newline='', encoding='utf-8') as file:
+with open('pricelist classes test.csv', 'w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
     writer.writerow(product[0])  # headers
     for x in range(1, len(product)):
-        writer.writerow([product[x][name], '', '', '',
-                         product[x][description],
-                         product[x][imageloc],
-                         product[x][category],
-                         product[x][tags],
-                         product[x][sku],
-                         ])
+        image = Products()
+        image.name, image.itype, image.size, image.price, image.description, image.imageloc, image.category, image.tags, image.sku, image.variationdesc, image.ratio, image.chromaPrice, image.lerretPrice, image.storformatPrice, image.storformatPanoPrice = product[
+            x][0], '', '', '',  product[x][4], product[x][5], product[x][6], product[x][7], product[x][8], product[x][9], product[x][10], gs.priceChroma, gs.priceLerret, gs.priceStorformat, gs.priceStorformatPano
+        writer.writerow(
+            [image.name, '', '', '', image.description, image.imageloc, image.category, image.tags, image.sku, image.variationdesc])
 
-        getProducts(product[x][ratio], gs.priceChroma.items(),
-                    chromaluxe, chromaluxeDesc)
-        getProducts(product[x][ratio], gs.priceLerret.items(),
-                    lerret, lerretDesc)
-        getProducts(product[x][ratio], gs.priceStorformat.items(),
-                    storformat, storformatDesc)
-        getProducts(product[x][ratio], gs.priceStorformatPano.items(),
-                    storformat, storformatDesc)
+        getProducts(image.ratio, image.chromaPrice.items(),
+                    product[0].index('Chromaluxe'))
+        getProducts(image.ratio, image.lerretPrice.items(),
+                    product[0].index('Lerret'))
+        getProducts(image.ratio, image.storformatPrice.items(),
+                    product[0].index('FineArt fotopapir'))
+        getProducts(image.ratio, image.storformatPanoPrice.items(),
+                    product[0].index('FineArt fotopapir'))
