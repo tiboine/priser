@@ -5,16 +5,17 @@ gs.gsheets()
 product = gs.sheets
 # for testing without google sheet cred: comment the two above lines and gs, uncomment the following lines:
 # product = []
-# with open('demo_products.csv', encoding='utf-8') as file:
+# with open('demo_products2.csv', encoding='utf-8') as file:
 #     reader = csv.reader(file)
 #     for row in reader:
 #         product.append(row)
 
-
+# print(product[1][10])
 chromaluxeDesc = product[1][11]  # chromaluxeDesc description
 lerretDesc = product[1][12]  # Canvas description
 storformatDesc = product[1][13]  # paper description
 priceChroma_2_3 = {}
+priceChroma = {}
 priceLerretDesc_2_3 = {}
 priceStorformat_2_3 = {}
 
@@ -40,10 +41,34 @@ name, description, imageloc, category, tags, sku, variationdesc, ratio, chromalu
                                                                                                               'Lerret'),
                                                                                                           product[0].index('FineArt fotopapir')]
 
+priceOut = {}
+productType = []
+productDesc = ''
 
-def swapRatio(i, priceList):
-    i = str(i).split('x')
-    priceList[f"{i[1]}x{i[0]}"] = val
+
+def getProducts(ratio, priceList, productType, productDesc):
+    def generate():
+        for size, price in priceList:
+            writer.writerow(
+                [product[x][name],
+                    product[0][productType],
+                    size,
+                    price, '', '', '', '',
+                    product[x][sku],
+                    productDesc])
+
+    if ratio == '2:1' and priceList == gs.priceStorformatPano.items():
+        generate()
+    if ratio == '3:2' and priceList == gs.priceChroma.items():
+        generate()
+    if ratio == '3:2' and priceList == gs.priceLerret.items():
+        generate()
+    if ratio == '2:3' and priceList == gs.priceChroma.items() or ratio == '2:3' and priceList == gs.priceLerret.items():
+        for i, val in priceList:
+            i = str(i).split('x')
+            priceOut[f"{i[1]}x{i[0]}"] = val
+            priceList = priceOut.items()
+        generate()
 
 
 with open('generated pricelist.csv', 'w', newline='', encoding='utf-8') as file:
@@ -57,63 +82,12 @@ with open('generated pricelist.csv', 'w', newline='', encoding='utf-8') as file:
                          product[x][tags],
                          product[x][sku],
                          ])
-        if product[x][ratio] == '2:3' or product[x][ratio] == '3:2':
-            if product[x][ratio] == '2:3':
-                for i, val in gs.priceChroma.items():
-                    swapRatio(i, priceChroma_2_3)
-                    prices = priceChroma_2_3.items()
-            elif product[x][ratio] == '3:2':
-                prices = gs.priceChroma.items()
 
-            for size, price in prices:
-                writer.writerow(
-                    [product[x][name],
-                     product[0][chromaluxe],
-                     size,
-                     price, '', '', '', '',
-                     product[x][sku],
-                     chromaluxeDesc])
-
-            if product[x][ratio] == '2:3':
-                for i, val in gs.priceLerret.items():
-                    swapRatio(i, priceLerretDesc_2_3)
-                prices = priceLerretDesc_2_3.items()
-            elif product[x][ratio] == '3:2':
-                prices = gs.priceLerret.items()
-
-            for size, price in prices:
-                writer.writerow(
-                    [product[x][name],
-                     product[0][lerret],
-                     size,
-                     price, '', '', '', '',
-                     product[x][sku],
-                     lerretDesc])
-
-            if product[x][ratio] == '2:3':
-                for i, val in gs.priceStorformat.items():
-                    swapRatio(i, priceStorformat_2_3)
-                prices = priceStorformat_2_3.items()
-            elif product[x][ratio] == '3:2':
-                prices = gs.priceStorformat.items()
-
-            for size, price in prices:
-                writer.writerow(
-                    [product[x][name],
-                     product[0][storformat],
-                     size,
-                     price, '', '', '', '',
-                     product[x][sku],
-                     storformatDesc])
-
-        elif product[x][ratio] == '2:1':
-            prices = gs.priceStorformatPano.items()
-
-            for size, price in prices:
-                writer.writerow(
-                    [product[x][name],
-                     product[0][storformat],
-                     size,
-                     price, '', '', '', '',
-                     product[x][sku],
-                     storformatDesc])
+        getProducts(product[x][ratio], gs.priceChroma.items(),
+                    chromaluxe, chromaluxeDesc)
+        getProducts(product[x][ratio], gs.priceLerret.items(),
+                    lerret, lerretDesc)
+        getProducts(product[x][ratio], gs.priceStorformat.items(),
+                    storformat, storformatDesc)
+        getProducts(product[x][ratio], gs.priceStorformatPano.items(),
+                    storformat, storformatDesc)
