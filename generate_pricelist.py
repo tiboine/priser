@@ -4,18 +4,6 @@ gs.gsheets()
 product = gs.sheets
 
 
-<<<<<<< HEAD
-chromaluxe = product[1][5]  # chromaluxe description
-lerret = product[1][6]  # Canvas description
-storformat = product[1][7]  # paper description
-priceChroma_2_3 = {}
-priceLerret_2_3 = {}
-priceStorformat_2_3 = {}
-print(product[0])
-# headers
-priceList = ['Name', 'Type', 'Size', 'Price',
-             'Description', 'Imageloc', 'category', 'tags', 'SKU', 'variationDesc']
-=======
 class Products:
     pass
 
@@ -59,7 +47,6 @@ def getProducts(ratio, priceList, itype, variationdesc):
         if ratio == '3:1' and priceList == price_3_1[i]:
             generate()
 
->>>>>>> refactor
 
 with open('generated pricelist new test.csv', 'w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
