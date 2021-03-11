@@ -65,6 +65,9 @@ def gsheets():
     for i in range(1, 6):
         priceStorformat[price_values[i][1]] = price_values[i][7]
     prices['storformat'] = priceStorformat
+    # print(priceStorformat)
+    # print(prices)
+    print(price_values[i][1])
     for i in range(7, 12):
         priceStorformatPano[price_values[i][1]] = price_values[i][7]
     prices['storformatPano'] = priceStorformatPano
@@ -83,7 +86,7 @@ def gsheets():
     for i in range(35, 38):
         priceStorformatPano_3_1[price_values[i][1]] = price_values[i][7]
     prices['storformatPano_3_1'] = priceStorformatPano_3_1
-
+    # print(prices)
     if not values:
         print('No data found.')
     else:
