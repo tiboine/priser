@@ -11,16 +11,19 @@ SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 
 # The ID and range of a sample spreadsheet.
 SPREADSHEET_ID = key
-RANGE_NAME = 'Ark 4!A1:J16'
-SHEET_PRICE_RANGE = 'Main!B6:I29'
+RANGE_NAME = 'Prisliste!A1:N50'
+SHEET_PRICE_RANGE = 'Main!B1:I43'
 sheets = []
 sheetsPrice = {}
 prices = {}
 priceStorformat = {}
 priceStorformatPano = {}
+priceStorformatPano_3_1 = {}
 priceChroma = {}
 priceLerret = {}
 priceLerret_2_3 = {}
+priceLerretPano = {}
+priceLerretPano_3_1 = {}
 
 
 def gsheets():
@@ -50,7 +53,7 @@ def gsheets():
     service = build('sheets', 'v4', credentials=creds)
 
     # Call the Sheets API
-    sheet = service.spreadsheets()
+    sheet = service.spreadsheets()  # dunno what's wrong here
     result = sheet.values().get(spreadsheetId=SPREADSHEET_ID,
                                 range=RANGE_NAME).execute()
     values = result.get('values', [])
@@ -71,6 +74,15 @@ def gsheets():
     for i in range(19, 24):
         priceLerret[price_values[i][1]] = price_values[i][7]
     prices['Lerret'] = priceLerret
+    for i in range(25, 30):
+        priceLerretPano[price_values[i][1]] = price_values[i][7]
+    prices['LerretPano'] = priceLerretPano
+    for i in range(31, 34):
+        priceLerretPano_3_1[price_values[i][1]] = price_values[i][7]
+    prices['LerretPano_3_1'] = priceLerretPano_3_1
+    for i in range(35, 38):
+        priceStorformatPano_3_1[price_values[i][1]] = price_values[i][7]
+    prices['storformatPano_3_1'] = priceStorformatPano_3_1
 
     if not values:
         print('No data found.')
