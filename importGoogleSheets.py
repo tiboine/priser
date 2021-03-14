@@ -12,7 +12,7 @@ SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 # The ID and range of a sample spreadsheet.
 SPREADSHEET_ID = key
 RANGE_NAME = 'Prisliste!A1:N50'
-SHEET_PRICE_RANGE = 'Main!B1:I43'
+MAIN_PRICE = 'Kopi av Main!D3:J43'
 sheets = []
 sheetsPrice = {}
 prices = {}
@@ -24,6 +24,17 @@ priceLerret = {}
 priceLerret_2_3 = {}
 priceLerretPano = {}
 priceLerretPano_3_1 = {}
+
+mydict = {}
+
+
+templist = []
+myValues = []
+myLengths = []
+myValues2 = []
+myLengths2 = []
+
+countLog = []
 
 
 def gsheets():
@@ -59,32 +70,55 @@ def gsheets():
     values = result.get('values', [])
 
     price_result = sheet.values().get(spreadsheetId=SPREADSHEET_ID,
-                                      range=SHEET_PRICE_RANGE).execute()
+                                      range=MAIN_PRICE).execute()
     price_values = price_result.get('values', [])
 
+    count = 0
+    for x in range(len(price_values)):
+        if price_values[x][0] != '':  # skriver navn på produktene
+            count += 1
+            templist.append(price_values[x])
+        if price_values[x][0] == '':  # legger til prisene
+
+            myLengths.append(price_values[x][1])
+            myValues.append(price_values[x][6])
+            countLog.append(count)
+
+    for i in range(count):  # 7 ganger
+        myv = []
+        myl = []
+
+        # deler opp prisene i egne lister for å sette sammen etterpå
+        for j in range(countLog.count(i+1)):
+            myl.append(myLengths.pop(0))
+            myv.append(myValues.pop(0))
+        myValues2.append(myv)
+        myLengths2.append(myl)
+
+        mydict[templist[i][0]] = dict(
+            zip(myLengths2[i], myValues2[i]))
+    # print(mydict)
     for i in range(1, 6):
-        priceStorformat[price_values[i][1]] = price_values[i][7]
+        priceStorformat[price_values[i][1]] = price_values[i][6]
     prices['storformat'] = priceStorformat
-    # print(priceStorformat)
-    # print(prices)
-    print(price_values[i][1])
-    for i in range(7, 12):
-        priceStorformatPano[price_values[i][1]] = price_values[i][7]
+    for i in range(6, 11):
+        priceStorformatPano[price_values[i][1]] = price_values[i][6]
     prices['storformatPano'] = priceStorformatPano
-    for i in range(13, 18):
-        priceChroma[price_values[i][1]] = price_values[i][7]
+
+    for i in range(11, 16):
+        priceChroma[price_values[i][1]] = price_values[i][6]
     prices['Chromaluxe'] = priceChroma
-    for i in range(19, 24):
-        priceLerret[price_values[i][1]] = price_values[i][7]
+    for i in range(16, 21):
+        priceLerret[price_values[i][1]] = price_values[i][6]
     prices['Lerret'] = priceLerret
-    for i in range(25, 30):
-        priceLerretPano[price_values[i][1]] = price_values[i][7]
+    for i in range(21, 26):
+        priceLerretPano[price_values[i][1]] = price_values[i][6]
     prices['LerretPano'] = priceLerretPano
-    for i in range(31, 34):
-        priceLerretPano_3_1[price_values[i][1]] = price_values[i][7]
+    for i in range(26, 29):
+        priceLerretPano_3_1[price_values[i][1]] = price_values[i][6]
     prices['LerretPano_3_1'] = priceLerretPano_3_1
-    for i in range(35, 38):
-        priceStorformatPano_3_1[price_values[i][1]] = price_values[i][7]
+    for i in range(29, 31):
+        priceStorformatPano_3_1[price_values[i][1]] = price_values[i][6]
     prices['storformatPano_3_1'] = priceStorformatPano_3_1
     # print(prices)
     if not values:
