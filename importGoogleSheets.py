@@ -11,7 +11,7 @@ SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 
 # The ID and range of a sample spreadsheet.
 SPREADSHEET_ID = key
-RANGE_NAME = 'NyeProdukter!A1:N50'
+RANGE_NAME = 'Prisliste!A1:050'
 MAIN_PRICE = 'Kopi av Main!D3:J50'
 sheets = []
 sheetsPrice = {}
