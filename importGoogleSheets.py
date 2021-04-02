@@ -11,8 +11,8 @@ SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 
 # The ID and range of a sample spreadsheet.
 SPREADSHEET_ID = key
-RANGE_NAME = 'Prisliste!A1:N50'
-MAIN_PRICE = 'Kopi av Main!D3:J43'
+RANGE_NAME = 'NyeProdukter!A1:N50'
+MAIN_PRICE = 'Kopi av Main!D3:J50'
 sheets = []
 sheetsPrice = {}
 prices = {}
@@ -28,12 +28,15 @@ priceLerretPano_3_1 = {}
 mydict = {}
 
 
-templist = []
+productVarTemp = []
 myValues = []
-myLengths = []
+mySizes = []
 myValues2 = []
-myLengths2 = []
-
+mySizes2 = []
+productVar = []
+productSize = []
+productPrice = []
+awesomelist = []
 countLog = []
 
 
@@ -71,56 +74,58 @@ def gsheets():
 
     price_result = sheet.values().get(spreadsheetId=SPREADSHEET_ID,
                                       range=MAIN_PRICE).execute()
-    price_values = price_result.get('values', [])
+    all_values = price_result.get('values', [])
 
-    count = 0
-    for x in range(len(price_values)):
-        if price_values[x][0] != '':  # skriver navn på produktene
-            count += 1
-            templist.append(price_values[x])
-        if price_values[x][0] == '':  # legger til prisene
+    for row in range(len(all_values)):
+        if all_values[row][0] != '':
+            # lagrer produktnavn i liste
+            productVarTemp.append(all_values[row])
+        else:
+            # lagrer verdiene til størrelse og pris
+            mySizes.append(all_values[row][1])
+            myValues.append(all_values[row][6])
+            countLog.append(len(productVarTemp))
 
-            myLengths.append(price_values[x][1])
-            myValues.append(price_values[x][6])
-            countLog.append(count)
-
-    for i in range(count):  # 7 ganger
+    for i in range(len(productVarTemp)):  # sjekker antall produkter
         myv = []
         myl = []
-
-        # deler opp prisene i egne lister for å sette sammen etterpå
-        for j in range(countLog.count(i+1)):
-            myl.append(myLengths.pop(0))
+        i += 1  # +1 for at neste count skal starte fra 1, og ikke 0
+        # lager lister av pris/lengde for antallet produkter
+        for j in range(countLog.count(i)):
+            myl.append(mySizes.pop(0))
             myv.append(myValues.pop(0))
-        myValues2.append(myv)
-        myLengths2.append(myl)
 
-        mydict[templist[i][0]] = dict(
-            zip(myLengths2[i], myValues2[i]))
-    # print(mydict)
+        myValues2.append(myv)
+        mySizes2.append(myl)
+    for i in range(len(productVarTemp)):
+        productVar.append(productVarTemp[i][0])
+        productSize.append(mySizes2[i])
+        productPrice.append(myValues2[i])
+
     for i in range(1, 6):
-        priceStorformat[price_values[i][1]] = price_values[i][6]
+        priceStorformat[all_values[i][1]] = all_values[i][6]
     prices['storformat'] = priceStorformat
     for i in range(6, 11):
-        priceStorformatPano[price_values[i][1]] = price_values[i][6]
+        priceStorformatPano[all_values[i][1]] = all_values[i][6]
     prices['storformatPano'] = priceStorformatPano
 
     for i in range(11, 16):
-        priceChroma[price_values[i][1]] = price_values[i][6]
+        priceChroma[all_values[i][1]] = all_values[i][6]
     prices['Chromaluxe'] = priceChroma
+
     for i in range(16, 21):
-        priceLerret[price_values[i][1]] = price_values[i][6]
+        priceLerret[all_values[i][1]] = all_values[i][6]
     prices['Lerret'] = priceLerret
     for i in range(21, 26):
-        priceLerretPano[price_values[i][1]] = price_values[i][6]
+        priceLerretPano[all_values[i][1]] = all_values[i][6]
     prices['LerretPano'] = priceLerretPano
     for i in range(26, 29):
-        priceLerretPano_3_1[price_values[i][1]] = price_values[i][6]
+        priceLerretPano_3_1[all_values[i][1]] = all_values[i][6]
     prices['LerretPano_3_1'] = priceLerretPano_3_1
     for i in range(29, 31):
-        priceStorformatPano_3_1[price_values[i][1]] = price_values[i][6]
+        priceStorformatPano_3_1[all_values[i][1]] = all_values[i][6]
     prices['storformatPano_3_1'] = priceStorformatPano_3_1
-    # print(prices)
+
     if not values:
         print('No data found.')
     else:
