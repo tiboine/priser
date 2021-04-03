@@ -1,7 +1,13 @@
 import importGoogleSheets as gs
 import csv
+import collections
 gs.gsheets()
 product = gs.sheets
+productSizeVertical = []
+productPriceVertical = []
+productSizeVerticalTemp = []
+productVarVertical = []
+varDesc = {}
 
 
 class Products:
@@ -53,46 +59,54 @@ with open('generated pricelist new test.csv', 'w', newline='', encoding='utf-8')
 
     writer = csv.writer(file)
     writer.writerow(product[0])  # headers
+
     for x in range(1, len(product)):
         image = Products()
         image.name = product[x][0]
-        image.itype = ''
-        image.size = ''
-        image.price = ''
         image.description = product[x][4]
         image.imageloc = product[x][5]
         image.category = product[x][6]
         image.tags = product[x][7]
         image.sku = product[x][8]
-        image.variationdesc = product[1][11]
-        image.ratio = product[x][10]
-        image.chromaPrice = gs.priceChroma
-        image.lerretPrice = gs.priceLerret
-        image.storformatPrice = gs.priceStorformat
-        image.storformatPanoPrice = gs.priceStorformatPano
-        image.lerretPanoPrice = gs.priceLerretPano
-        image.lerretPano_3_1Price = gs.priceLerretPano_3_1
-        image.storformatPano_3_1Price = gs.priceStorformatPano_3_1
+        image.variationdesc = product[1][13]
 
-        writer.writerow(
-            [image.name, '', '', '', image.description, image.imageloc, image.category, image.tags, image.sku, image.variationdesc])
+        # writer.writerow(
+        #     [image.name, '', '', '', image.description, image.imageloc, '', '', image.sku, '', ''])
 
-        getProducts(image.ratio, image.chromaPrice.items(),
-                    product[0].index('Chromaluxe'), product[1][11])
+        for i in range(len(gs.productVar)):
+            if product[x][11] in gs.productVar[i]:
+                for j in range(len(gs.productPrice[i])):
+                    writer.writerow(
+                        [image.name,
+                         str(kortProductVar[i]).capitalize(),
+                         gs.productSize[i][j],
+                         gs.productPrice[i][j],
+                         image.description, image.imageloc,
+                         image.category,
+                         image.tags,
+                         image.sku + '-' +
+                         str(kortProductVar[i])[:2] +
+                            str(gs.productSize[i][j][:2]),
+                         image.sku,
+                         list(varDesc.values())[i]
+                         ])
 
-        getProducts(image.ratio, image.lerretPrice.items(),
-                    product[0].index('Lerret'), product[1][12])
+        for i in range(len(productVarVertical)):
+            for j in range(len(productPriceVertical[i])):
+                if '2:3' in product[x][11]:
+                    writer.writerow(
+                        [image.name,
+                         str(kortProductVar_2_3[i]).capitalize(),
+                         productSizeVertical[i][j],
+                         productPriceVertical[i][j],
+                         image.description, image.imageloc,
+                         image.category,
+                         image.tags,
+                         image.sku + '-' +
+                         str(kortProductVar_2_3[i])[:2] +
+                            str(productSizeVertical[i][j][:2]),
+                         image.sku,
+                         list(varDesc.values())[i + 1]])
 
-        getProducts(image.ratio, image.lerretPanoPrice.items(),
-                    product[0].index('Lerret'), product[1][12])
-
-        getProducts(image.ratio, image.lerretPano_3_1Price.items(),
-                    product[0].index('Lerret'), product[1][12])
-
-        getProducts(image.ratio, image.storformatPrice.items(),
-                    product[0].index('FineArt fotopapir'), product[1][13])
-
-        getProducts(image.ratio, image.storformatPanoPrice.items(),
-                    product[0].index('FineArt fotopapir'), product[1][13])
-        getProducts(image.ratio, image.storformatPano_3_1Price.items(),
-                    product[0].index('FineArt fotopapir'), product[1][13])
+print('Antall produkter:')
+print(len(product))
