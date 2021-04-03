@@ -46,12 +46,12 @@ for x in range(len(gs.productVar)):
     strippedProductVar.pop(1)
     kortProductVar.append(strippedProductVar[0])
 
-
-for i in range(len(gs.productVar)):  # lager dict for lettere plassering av variationDesc
+# lager dict for lettere plassering av variationDesc
+for i in range(len(gs.productVar)):
     for y in range(1, 4):
         if product[0][11 + y].lower() in gs.productVar[i].lower():
             varDesc[gs.productVar[i]] = product[1][11+y]
-testliste = []
+
 
 with open('00test.csv', 'w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
@@ -87,9 +87,6 @@ with open('00test.csv', 'w', newline='', encoding='utf-8') as file:
                          image.sku,
                          list(varDesc.values())[i]
                          ])
-                    testliste.append(image.sku + '-' +
-                                     str(kortProductVar[i])[:2] +
-                                     str(gs.productSize[i][j][:2]))
 
         for i in range(len(productVarVertical)):
             for j in range(len(productPriceVertical[i])):
@@ -104,22 +101,9 @@ with open('00test.csv', 'w', newline='', encoding='utf-8') as file:
                          image.tags,
                          image.sku + '-' +
                          str(kortProductVar_2_3[i])[:2] +
-                            str(gs.productSize[i][j][:2]),
+                            str(productSizeVertical[i][j][:2]),
                          image.sku,
                          list(varDesc.values())[i + 1]])
-                    # print(kortProductVar[i])
-#                     testliste.append(image.sku + '-' +
-#                                      str(kortProductVar[i])[:2] +
-#                                      str(gs.productSize[i][j][:2]))
-# print([item for item, count in collections.Counter(testliste).items() if count > 1])
-# print('product price: ', gs.productPrice)
-# print('product var: ', gs.productVar)
-# print('product var vert: ', productVarVertical)
-# print('product var price: ', productPriceVertical)
 
-# print(kortProductVar[1])
-# print([word[:2] for word in kortProductVar])
-# print(gs.productVar)
-# print('productVarVertical: ', productVarVertical)
-# print('kortproductvar: ', kortProductVar)
-# print(productPriceVertical)
+print('Antall produkter:')
+print(len(product))
