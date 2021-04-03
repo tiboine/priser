@@ -14,49 +14,46 @@ class Products:
     pass
 
 
-def getProducts(ratio, priceList, itype, variationdesc):
-    def generate():
-        for size, price in priceList:
-            writer.writerow([
-                image.name,
-                product[0][itype],
-                size,
-                price, '', '', '', '',
-                image.sku,
-                variationdesc])
+myList = []
+# for i in range(len(gs.productVar)):
+myList.append(gs.productVar)
 
-    price_3_2 = [image.chromaPrice.items(), image.lerretPrice.items(),
-                 image.storformatPrice.items()]
-    price_2_1 = [image.lerretPanoPrice.items(),
-                 image.storformatPanoPrice.items()]
-    price_3_1 = [image.lerretPano_3_1Price.items(),
-                 image.storformatPano_3_1Price.items()]
+# print(myList)
 
-    for i in range(len(price_3_2)):
-        if ratio == '3:2' and priceList == price_3_2[i]:
-            generate()
+# konvertere 3:2 størrelser til 2:3
+for i in range(len(gs.productSize)):
+    temp = []
+    for j in gs.productSize[i]:
+        y = str(j).split('x')
+        temp.append(f'{y[1]}x{y[0]}')
+    productSizeVerticalTemp.append(temp)
 
-    for i in range(len(price_3_2)):
-        if ratio == '2:3' and priceList == price_3_2[i]:
-            priceOut = {}
-            for i, val in priceList:
-                i = str(i).split('x')
-                priceOut[f"{i[1]}x{i[0]}"] = val
-                priceList = priceOut.items()
-            generate()
-
-    for i in range(len(price_2_1)):
-        if ratio == '2:1' and priceList == price_2_1[i]:
-            generate()
-
-    for i in range(len(price_3_1)):
-        if ratio == '3:1' and priceList == price_3_1[i]:
-            generate()
+# lage nye lister med kun 2:3 produkter
+kortProductVar_2_3 = []
+for i in range(len(gs.productVar)):
+    if '3:2' in gs.productVar[i]:
+        productSizeVertical.append(productSizeVerticalTemp[i])
+        productPriceVertical.append(gs.productPrice[i])
+        productVarVertical.append(gs.productVar[i])
+        kortProductVar_2_3.append([x.strip()
+                                   for x in gs.productVar[i].split(' ')][0])  # strippe 2:3 fra typen
 
 
-with open('generated pricelist new test.csv', 'w', newline='', encoding='utf-8') as file:
-    writer = csv.writer(file)
+# LAGE egen productVar strip
+kortProductVar = []
+for x in range(len(gs.productVar)):
+    strippedProductVar = [x.strip() for x in gs.productVar[x].split(' ')]
+    strippedProductVar.pop(1)
+    kortProductVar.append(strippedProductVar[0])
 
+# lager dict for lettere plassering av variationDesc
+for i in range(len(gs.productVar)):
+    for y in range(1, 4):
+        if product[0][11 + y].lower() in gs.productVar[i].lower():
+            varDesc[gs.productVar[i]] = product[1][11+y]
+
+
+with open('00test.csv', 'w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
     writer.writerow(product[0])  # headers
 
