@@ -102,30 +102,6 @@ def gsheets():
         productSize.append(mySizes2[i])
         productPrice.append(myValues2[i])
 
-    for i in range(1, 6):
-        priceStorformat[all_values[i][1]] = all_values[i][6]
-    prices['storformat'] = priceStorformat
-    for i in range(6, 11):
-        priceStorformatPano[all_values[i][1]] = all_values[i][6]
-    prices['storformatPano'] = priceStorformatPano
-
-    for i in range(11, 16):
-        priceChroma[all_values[i][1]] = all_values[i][6]
-    prices['Chromaluxe'] = priceChroma
-
-    for i in range(16, 21):
-        priceLerret[all_values[i][1]] = all_values[i][6]
-    prices['Lerret'] = priceLerret
-    for i in range(21, 26):
-        priceLerretPano[all_values[i][1]] = all_values[i][6]
-    prices['LerretPano'] = priceLerretPano
-    for i in range(26, 29):
-        priceLerretPano_3_1[all_values[i][1]] = all_values[i][6]
-    prices['LerretPano_3_1'] = priceLerretPano_3_1
-    for i in range(29, 31):
-        priceStorformatPano_3_1[all_values[i][1]] = all_values[i][6]
-    prices['storformatPano_3_1'] = priceStorformatPano_3_1
-
     if not values:
         print('No data found.')
     else:

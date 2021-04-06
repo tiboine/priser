@@ -53,7 +53,7 @@ for i in range(len(gs.productVar)):
             varDesc[gs.productVar[i]] = product[1][11+y]
 
 
-with open('00test.csv', 'w', newline='', encoding='utf-8') as file:
+with open('Landskapspriser.csv', 'w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
     writer.writerow(product[0])  # headers
 
