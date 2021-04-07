@@ -7,7 +7,7 @@ productPriceVertical = []
 productSizeVerticalTemp = []
 productVarVertical = []
 varDesc = {}
-
+produktVarianter = 0  # for å sjekke antall totale produkter
 
 # konvertere 3:2 størrelser til 2:3
 for num in range(len(gs.productSize)):
@@ -17,9 +17,14 @@ for num in range(len(gs.productSize)):
         temp.append(f'{splitSize[1]}x{splitSize[0]}')
     productSizeVerticalTemp.append(temp)
 
-# lage nye lister med kun 2:3 produkter
+
 kortProductVar_2_3 = []
+kortProductVar = []
 for num in range(len(gs.productVar)):
+    strippedProductVar = [num.strip() for num in gs.productVar[num].split(' ')]
+    strippedProductVar.pop(1)
+    kortProductVar.append(strippedProductVar[0])
+    # lage nye lister med kun 2:3 produkter
     if '3:2' in gs.productVar[num]:
         productSizeVertical.append(productSizeVerticalTemp[num])
         productPriceVertical.append(gs.productPrice[num])
@@ -27,12 +32,6 @@ for num in range(len(gs.productVar)):
         kortProductVar_2_3.append([x.strip()
                                    for x in gs.productVar[num].split(' ')][0])  # strippe 2:3 fra typen
 
-# Fjerne ratiotall fra productVar. fineart 3:2 -> fineart
-kortProductVar = []
-for num in range(len(gs.productVar)):
-    strippedProductVar = [num.strip() for num in gs.productVar[num].split(' ')]
-    strippedProductVar.pop(1)
-    kortProductVar.append(strippedProductVar[0])
 
 # lager dict for lettere plassering av variationDesc
 for num in range(len(gs.productVar)):
@@ -62,8 +61,11 @@ with open(str(gs.RANGE_NAME[:-7])+'.csv', 'w', newline='', encoding='utf-8') as 
         #     [image.name, '', '', '', image.description, image.imageloc, '', '', image.sku, '', ''])
 
         for i in range(len(gs.productVar)):
+
             for j in range(len(gs.productPrice[i])):
-                if '3:2' in gs.productVar[i]:
+                if product[num][11] in gs.productVar[i]:
+                    produktVarianter += 1
+
                     writer.writerow(
                         [image.name,
                          str(kortProductVar[i]).capitalize(),
@@ -82,6 +84,7 @@ with open(str(gs.RANGE_NAME[:-7])+'.csv', 'w', newline='', encoding='utf-8') as 
         for i in range(len(productVarVertical)):
             for j in range(len(productPriceVertical[i])):
                 if '2:3' in product[num][11]:
+                    produktVarianter += 1
                     writer.writerow(
                         [image.name,
                          str(kortProductVar_2_3[i]).capitalize(),
@@ -97,3 +100,4 @@ with open(str(gs.RANGE_NAME[:-7])+'.csv', 'w', newline='', encoding='utf-8') as 
                          list(varDesc.values())[i + 1]])
 
 print('Antall produkter:', len(product))
+print('Antall varianter totalt:', produktVarianter)
